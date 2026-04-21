@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-ink: #000000;
+    --color-paper: #ffffff;
+    --color-ink-light: #333333;
+    --color-paper-dark: #cccccc;
+    --background: var(--color-ink);
+    --foreground: var(--color-paper);
+    --font-pixel: 'Zpix', 'SimSun', 'NSimSun', 'Courier New', monospace;
+  }
+  
+  @font-face {
+    font-family: 'Zpix';
+    src: url('https://unpkg.com/zpix-browser/dist/zpix.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-pixel);
+    /* 强制像素渲染风格 */
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    image-rendering: pixelated;
+    overflow: hidden;
+    user-select: none;
+  }
+  
+  /* 禁用默认滚动条 */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+}
+
+@layer utilities {
+  .pixel-border {
+    border: 2px solid var(--color-paper);
+    box-shadow: 2px 2px 0 var(--color-ink), inset 2px 2px 0 var(--color-ink);
+  }
+  .pixel-border-invert {
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+  .scanline {
+    background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(0,0,0,0.2) 50%,
+      rgba(0,0,0,0.2)
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+  }
+}
