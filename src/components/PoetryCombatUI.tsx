@@ -37,31 +37,50 @@ export default function PoetryCombatUI() {
   const [prefix, suffix] = currentPoemCombat.content.split(currentPoemCombat.missingPart);
 
   return (
-    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-[500px] bg-ink text-paper border-2 border-paper p-4 z-30 shadow-[4px_4px_0_rgba(255,255,255,0.5)]">
-      <div className="mb-4 text-xl border-b-2 border-paper pb-2 flex items-center justify-center">
+    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[90%] max-w-[600px] bg-ink/95 backdrop-blur-md text-paper border-4 border-paper p-6 z-30 shadow-pixel">
+      {/* 角落装饰 */}
+      <div className="absolute -top-2 -left-2 w-4 h-4 border-t-4 border-l-4 border-paper"></div>
+      <div className="absolute -bottom-2 -right-2 w-4 h-4 border-b-4 border-r-4 border-paper"></div>
+
+      <div className="mb-6 text-2xl border-b-2 border-paper-dark/50 pb-4 flex items-center justify-center tracking-widest">
         <span>{prefix}</span>
-        <span className="inline-block border-b-2 border-paper w-24 text-center mx-2 text-paper-dark relative">
-          <span className="animate-pulse">______</span>
+        <span className="inline-block border-b-4 border-paper w-32 text-center mx-3 text-paper relative">
+          <span className="animate-pulse absolute bottom-1 left-1/2 -translate-x-1/2">？</span>
         </span>
         <span>{suffix}</span>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         {currentPoemCombat.options.map((opt, idx) => (
           <div 
             key={idx} 
-            className={`px-4 py-2 flex items-center gap-2 cursor-pointer transition-colors ${
-              idx === selectedIndex ? 'bg-paper text-ink font-bold' : 'bg-ink text-paper hover:bg-ink-light'
+            className={`px-6 py-3 flex items-center gap-4 cursor-pointer transition-all duration-200 border-2 ${
+              idx === selectedIndex 
+                ? 'bg-paper text-ink font-bold border-paper scale-[1.02] shadow-[0_0_15px_rgba(255,255,255,0.3)]' 
+                : 'bg-ink text-paper border-transparent hover:border-paper-dark hover:bg-ink-light'
             }`}
-            onClick={() => setSelectedIndex(idx)}
+            onMouseEnter={() => {
+              if(selectedIndex !== idx) audioSystem.playHover();
+              setSelectedIndex(idx);
+            }}
+            onClick={() => {
+              const isCorrect = idx === currentPoemCombat.correctIndex;
+              if (isCorrect) {
+                audioSystem.playPoemCorrect();
+              } else {
+                audioSystem.playPoemWrong();
+                audioSystem.playDamage();
+              }
+              endPoetryCombat(isCorrect);
+            }}
           >
-            <span>{idx + 1}.</span>
-            <span>{opt}</span>
-            {idx === selectedIndex && <span className="ml-auto animate-pulse">←</span>}
+            <span className="opacity-50 font-mono">{idx + 1}.</span>
+            <span className="tracking-widest text-lg">{opt}</span>
+            {idx === selectedIndex && <span className="ml-auto animate-pulse">◀</span>}
           </div>
         ))}
       </div>
-      <div className="mt-4 text-xs text-paper-dark text-center animate-pulse">
-        ↑↓ 选择，空格/回车 确认
+      <div className="mt-6 text-xs text-paper-dark text-center animate-pulse tracking-widest font-mono">
+        ↑↓ 选择选项，空格/回车/点击 确认填写
       </div>
     </div>
   );

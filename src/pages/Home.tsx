@@ -7,13 +7,11 @@ export default function Home() {
   const [selected, setSelected] = useState(0);
   const menus = [
     { label: '开始游戏', action: () => { audioSystem.playConfirm(); navigate('/game'); } },
-    { label: '诗词图鉴', action: () => { audioSystem.playConfirm(); navigate('/collection'); } },
-    { label: '游戏选项', action: () => { audioSystem.playConfirm(); alert('尚未实装'); } },
+    { label: '文心宝录', action: () => { audioSystem.playConfirm(); navigate('/collection'); } },
+    { label: '隐秘卷宗', action: () => { audioSystem.playConfirm(); alert('尚在封印中'); } },
   ];
 
-  // 在主界面启动BGM，离开时可选择是否关闭
   useEffect(() => {
-    // 为避免浏览器自动播放策略拦截，需要用户交互后再播放
     const playMusic = () => {
       audioSystem.startMenuBGM();
       window.removeEventListener('click', playMusic);
@@ -26,37 +24,45 @@ export default function Home() {
     return () => {
       window.removeEventListener('click', playMusic);
       window.removeEventListener('keydown', playMusic);
-      audioSystem.stopBGM(); // 离开主页停止主界面BGM
+      audioSystem.stopBGM();
     };
   }, []);
 
   return (
-    <div className="min-h-screen bg-ink text-paper flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      {/* 动态背景粒子效果 */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-paper rounded-full blur-[100px] animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-48 h-48 bg-paper rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+    <div className="min-h-screen bg-ink text-paper flex flex-col items-center justify-center p-4 relative overflow-hidden font-pixel">
+      {/* 环境光晕 */}
+      <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-screen">
+        <div className="absolute top-[10%] left-[20%] w-64 h-64 bg-paper rounded-full blur-[120px] animate-breathe"></div>
+        <div className="absolute bottom-[20%] right-[10%] w-96 h-96 bg-paper rounded-full blur-[150px] animate-breathe" style={{ animationDelay: '2s' }}></div>
       </div>
 
-      <div className="pixel-border p-8 bg-ink max-w-md w-full relative z-10 shadow-[0_0_40px_rgba(255,255,255,0.1)]">
-        <h1 className="text-6xl text-center mb-8 tracking-widest relative">
-          <span className="absolute -inset-1 opacity-20 bg-paper blur-md"></span>
+      {/* 噪点覆盖层（增加复古质感） */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}></div>
+
+      <div className="border-4 border-paper p-12 bg-ink/90 backdrop-blur-sm max-w-lg w-full relative z-10 shadow-pixel flex flex-col items-center">
+        {/* 顶部印章装饰 */}
+        <div className="absolute -top-6 right-12 w-12 h-12 bg-accent text-paper flex items-center justify-center border-2 border-ink shadow-pixel rotate-12 select-none">
+          <span className="text-xl font-bold writing-vertical-rl">初卷</span>
+        </div>
+
+        <h1 className="text-7xl text-center mb-6 tracking-[0.2em] ink-glow font-bold relative">
+          <span className="absolute -inset-2 opacity-10 bg-paper blur-xl"></span>
           墨语行者
         </h1>
         
-        <div className="text-center mb-12 text-paper-dark">
-          <p>8MB 极简水墨冒险</p>
-          <p className="text-xs mt-2">机制驱动 · 以文为武</p>
+        <div className="text-center mb-16 text-paper-dark relative">
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-32 h-[1px] bg-paper-dark/30"></div>
+          <p className="bg-ink relative z-10 px-4 text-sm tracking-widest uppercase">机制驱动 · 以文为武</p>
         </div>
 
-        <div className="flex flex-col gap-4 items-center">
+        <div className="flex flex-col gap-6 w-full max-w-[240px]">
           {menus.map((m, idx) => (
             <button
               key={idx}
-              className={`text-2xl px-6 py-2 border-2 transition-colors ${
+              className={`group relative text-2xl px-6 py-4 w-full border-2 transition-all duration-200 ${
                 selected === idx 
-                  ? 'border-paper bg-paper text-ink shadow-[0_0_15px_rgba(255,255,255,0.5)]' 
-                  : 'border-transparent text-paper hover:border-paper-dark'
+                  ? 'border-paper bg-paper text-ink shadow-pixel translate-y-[-2px] font-bold' 
+                  : 'border-paper-dark/50 text-paper-dark hover:border-paper hover:text-paper bg-ink'
               }`}
               onMouseEnter={() => {
                 if (selected !== idx) audioSystem.playHover();
@@ -64,16 +70,21 @@ export default function Home() {
               }}
               onClick={m.action}
             >
-              {selected === idx && <span className="mr-2 animate-pulse">▶</span>}
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                {selected === idx && <span className="animate-pulse">▶</span>}
+              </div>
               {m.label}
-              {selected === idx && <span className="ml-2 animate-pulse">◀</span>}
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                {selected === idx && <span className="animate-pulse">◀</span>}
+              </div>
             </button>
           ))}
         </div>
         
-        <div className="mt-16 text-xs text-center text-paper-dark">
-          <p className="mb-2 animate-pulse">（点击或按键开启音效与音乐）</p>
-          © 2026 Ink Walker Studio
+        <div className="mt-20 flex flex-col items-center gap-2">
+          <p className="text-xs text-paper-dark animate-pulse opacity-70">（点击或按键开启音效与音乐）</p>
+          <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-paper-dark/50 to-transparent"></div>
+          <p className="text-xs text-paper-dark mt-2 font-mono">© 2026 Ink Walker Studio</p>
         </div>
       </div>
     </div>
