@@ -4,11 +4,19 @@
 
 @layer base {
   :root {
-    --color-ink: #0a0a0a;
+    /* 纸色：偏暖的宣纸白 */
     --color-paper: #f4f4f0;
-    --color-ink-light: #2a2a2a;
-    --color-paper-dark: #d4d4d0;
-    --color-accent: #8b0000; /* 极少使用的印泥朱红色作为点缀 */
+    --color-paper-dark: #dcdcd6;
+    
+    /* 墨色：并非纯黑，而是带有深蓝/紫色的徽墨 */
+    --color-ink: #1a1a24;
+    --color-ink-light: #2a2a36;
+    
+    /* 中国传统色点缀 */
+    --color-accent: #c04851; /* 殷红：用于印章、错误、警告、关键强调 */
+    --color-accent-blue: #2a5caa; /* 景泰蓝：用于记忆、水系魔法、正确提示 */
+    --color-accent-gold: #cca53f; /* 藤黄：用于胜利、稀有收集、高光提示 */
+    --color-accent-green: #1a6840; /* 石绿：用于恢复、生命、自然环境 */
     
     --background: var(--color-ink);
     --foreground: var(--color-paper);
@@ -46,10 +54,10 @@
     border-left: 1px solid var(--color-ink-light);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-paper-dark);
+    background: var(--color-accent-blue);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-paper);
+    background: var(--color-accent-gold);
   }
   
   * {
@@ -60,21 +68,21 @@
 @layer utilities {
   .pixel-border {
     border: 2px solid var(--color-paper);
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.5), inset 2px 2px 0 rgba(255,255,255,0.1);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.7), inset 2px 2px 0 rgba(255,255,255,0.1);
   }
   .pixel-border-invert {
     border: 2px solid var(--color-ink);
     background-color: var(--color-paper);
     color: var(--color-ink);
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.4);
   }
   .scanline {
     background: linear-gradient(
       to bottom,
       rgba(255,255,255,0),
       rgba(255,255,255,0) 50%,
-      rgba(0,0,0,0.2) 50%,
-      rgba(0,0,0,0.2)
+      rgba(42,92,170,0.15) 50%, /* 带有微蓝色的扫描线 */
+      rgba(42,92,170,0.15)
     );
     background-size: 100% 4px;
     pointer-events: none;
@@ -82,10 +90,10 @@
   
   /* 墨晕发光效果 */
   .ink-glow {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(204, 165, 63, 0.3); /* 微微泛出藤黄色光晕 */
   }
   .ink-glow-box {
-    box-shadow: 0 0 15px rgba(244, 244, 240, 0.1), 0 0 30px rgba(244, 244, 240, 0.05);
+    box-shadow: 0 0 15px rgba(244, 244, 240, 0.15), 0 0 30px rgba(42, 92, 170, 0.2); /* 带有景泰蓝光晕的盒子 */
   }
   
   /* 水墨渐隐遮罩 */

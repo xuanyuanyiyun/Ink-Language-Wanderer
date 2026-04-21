@@ -17,15 +17,22 @@ export default {
           DEFAULT: "var(--color-paper)",
           dark: "var(--color-paper-dark)",
         },
-        accent: "var(--color-accent)",
+        accent: {
+          DEFAULT: "var(--color-accent)",
+          blue: "var(--color-accent-blue)",
+          gold: "var(--color-accent-gold)",
+          green: "var(--color-accent-green)",
+        },
       },
       fontFamily: {
         pixel: ["var(--font-pixel)"],
       },
       boxShadow: {
-        'pixel': '4px 4px 0 rgba(0,0,0,0.5)',
-        'pixel-hover': '2px 2px 0 rgba(0,0,0,0.5)',
-        'ink-glow': '0 0 20px rgba(244, 244, 240, 0.1)',
+        'pixel': '4px 4px 0 rgba(0,0,0,0.7)',
+        'pixel-hover': '2px 2px 0 rgba(0,0,0,0.7)',
+        'ink-glow': '0 0 20px rgba(244, 244, 240, 0.15)',
+        'accent-glow': '0 0 25px rgba(192, 72, 81, 0.4)',
+        'blue-glow': '0 0 25px rgba(42, 92, 170, 0.4)',
       }
     },
   },

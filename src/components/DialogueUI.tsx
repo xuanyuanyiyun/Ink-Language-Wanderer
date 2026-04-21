@@ -59,13 +59,13 @@ export default function DialogueUI() {
   return (
     <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[95%] max-w-[640px] z-40 flex flex-col items-start gap-1">
       {current.speaker && (
-        <div className="bg-ink text-paper px-6 py-2 border-2 border-paper text-xl font-bold shadow-pixel tracking-widest relative">
+        <div className="bg-accent-blue text-paper px-6 py-2 border-2 border-paper text-xl font-bold shadow-pixel tracking-widest relative">
           {/* 名字框装饰点 */}
           <div className="absolute top-1 left-1 w-1 h-1 bg-paper/50"></div>
           {current.speaker}
         </div>
       )}
-      <div className="w-full bg-ink/95 backdrop-blur-md text-paper border-4 border-paper p-6 shadow-pixel min-h-[140px] relative cursor-pointer group hover:border-paper-dark transition-colors"
+      <div className="w-full bg-ink/95 backdrop-blur-md text-paper border-4 border-accent-blue p-6 shadow-blue-glow min-h-[140px] relative cursor-pointer group hover:border-paper transition-colors"
            onClick={() => {
              if (isTyping) {
                setDisplayedText(currentDialogue[dialogueIndex].text);
@@ -75,10 +75,12 @@ export default function DialogueUI() {
                nextDialogue();
              }
            }}>
-        <p className="text-xl leading-relaxed whitespace-pre-wrap tracking-wide">{displayedText}</p>
+        <p className="text-xl leading-relaxed whitespace-pre-wrap tracking-wide text-paper-dark drop-shadow-md">
+          {displayedText}
+        </p>
         
         {!isTyping && (
-          <div className="absolute bottom-4 right-6 animate-pulse text-paper-dark text-sm font-mono tracking-widest group-hover:text-paper transition-colors">
+          <div className="absolute bottom-4 right-6 animate-pulse text-accent-gold text-sm font-mono tracking-widest group-hover:text-paper transition-colors">
             ▼ 继续
           </div>
         )}
