@@ -4,6 +4,7 @@ import { useGameStore } from '@/store/gameStore';
 import GameCanvas from '@/components/GameCanvas';
 import HUD from '@/components/HUD';
 import PoetryCombatUI from '@/components/PoetryCombatUI';
+import DialogueUI from '@/components/DialogueUI';
 
 export default function Game() {
   const { state, setGameState } = useGameStore();
@@ -32,6 +33,7 @@ export default function Game() {
         <HUD />
         <GameCanvas />
         <PoetryCombatUI />
+        <DialogueUI />
       </div>
     </div>
   );

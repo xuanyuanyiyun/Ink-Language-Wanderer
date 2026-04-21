@@ -7,12 +7,54 @@ const CANVAS_WIDTH = 320;
 const CANVAS_HEIGHT = 240;
 const TILE_SIZE = 16;
 
+interface MemoryEntity {
+  x: number;
+  y: number;
+  id: string;
+  title: string;
+  dialogue: { speaker?: string; text: string }[];
+}
+
 export default function GameCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { form, state, setGameState, takeDamage, setForm } = useGameStore();
+  const { form, state, setGameState, takeDamage, setForm, showDialogue, collectMemory, collectedMemories } = useGameStore();
   const playerPos = useRef({ x: 160, y: 120 });
   const noise = useRef(new PerlinNoise(Math.random()));
   const keys = useRef<{ [key: string]: boolean }>({});
+  const initialized = useRef(false);
+
+  const memoryEntities = useRef<MemoryEntity[]>([
+    {
+      x: 200, y: 150, id: 'mem1', title: '师父的教导',
+      dialogue: [
+        { speaker: '师父', text: '“守儿，你可知每个字都有它的重量？”' },
+        { speaker: '墨守', text: '“徒儿不知。”' },
+        { speaker: '师父', text: '“文明是宇宙对抗熵增的唯一方式。一撇一捺，相互支撑，方为‘人’。”' }
+      ]
+    },
+    {
+      x: 80, y: 80, id: 'mem2', title: '燃烧的禁书',
+      dialogue: [
+        { speaker: '师父', text: '“这本《权谋书》被用于党争，死伤三千。文字之罪耶？”' },
+        { speaker: '惊鸿', text: '“师父，您不能全烧了！这是文明的火种！”' },
+        { speaker: '师父', text: '“若文明必伴苦难，此文明值得存否？不完美的文明，不如无文明。”' }
+      ]
+    }
+  ]);
+
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      // 开场对话
+      setTimeout(() => {
+        showDialogue([
+          { text: '（空白之地... 我是谁？）' },
+          { speaker: '墨守', text: '我只记得... 师父的半块砚台。' },
+          { speaker: '惊鸿', text: '“你终于醒了。忘川正在吞噬一切，快走吧。”' }
+        ]);
+      }, 500);
+    }
+  }, [showDialogue]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -24,6 +66,8 @@ export default function GameCanvas() {
         useGameStore.setState({ hp: 100 });
         return;
       }
+
+      if (state !== 'playing') return;
 
       // Handle form switching
       if (e.code === 'Space') {
@@ -126,6 +170,32 @@ export default function GameCanvas() {
       const formChar = form === 'brush' ? '笔' : form === 'ink' ? '墨' : form === 'paper' ? '纸' : '砚';
       ctx.fillText(formChar, playerPos.current.x, playerPos.current.y);
 
+      // Draw Memory Fragments
+      memoryEntities.current.forEach(mem => {
+        if (!collectedMemories.includes(mem.id)) {
+          // Glow effect
+          ctx.fillStyle = `rgba(255, 255, 255, ${0.5 + Math.sin(time * 0.1) * 0.5})`;
+          ctx.beginPath();
+          ctx.arc(mem.x, mem.y, 10, 0, Math.PI * 2);
+          ctx.fill();
+          
+          ctx.fillStyle = '#000000';
+          ctx.fillRect(mem.x - 4, mem.y - 4, 8, 8);
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('忆', mem.x, mem.y);
+
+          // Check collision
+          const dx = playerPos.current.x - mem.x;
+          const dy = playerPos.current.y - mem.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 16 && state === 'playing') {
+            collectMemory(mem.id);
+            audioSystem.playSuccess();
+            showDialogue(mem.dialogue);
+          }
+        }
+      });
+
       time++;
       animationFrameId = requestAnimationFrame(render);
     };
@@ -133,7 +203,7 @@ export default function GameCanvas() {
     render();
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [state, form]);
+  }, [state, form, collectedMemories, collectMemory, showDialogue]);
 
   return (
     <div className="relative w-full h-full bg-paper">

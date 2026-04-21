@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 export type GameForm = 'brush' | 'ink' | 'paper' | 'stone';
-export type GameStateEnum = 'menu' | 'playing' | 'poetry-combat' | 'gameover' | 'collection';
+export type GameStateEnum = 'menu' | 'playing' | 'poetry-combat' | 'gameover' | 'collection' | 'dialogue';
 
 export interface Poem {
   id: string;
@@ -10,6 +10,17 @@ export interface Poem {
   options: string[]; // e.g., ["死亦为鬼雄", "生亦为鬼雄", "死亦为鬼杰"]
   correctIndex: number;
   effect: 'heal' | 'summon' | 'damage' | 'terrain';
+}
+
+export interface Dialogue {
+  speaker?: string;
+  text: string;
+}
+
+export interface MemoryFragment {
+  id: string;
+  title: string;
+  content: string;
 }
 
 interface GameState {
@@ -21,7 +32,10 @@ interface GameState {
   form: GameForm;
   collectedWords: string[];
   unlockedPoems: string[];
+  collectedMemories: string[]; // 收集的记忆碎片ID
   currentPoemCombat: Poem | null;
+  currentDialogue: Dialogue[] | null;
+  dialogueIndex: number;
   
   // Actions
   setGameState: (state: GameStateEnum) => void;
@@ -32,8 +46,11 @@ interface GameState {
   restoreWenqi: (amount: number) => void;
   collectWord: (word: string) => void;
   unlockPoem: (poemId: string) => void;
+  collectMemory: (memoryId: string) => void;
   startPoetryCombat: (poem: Poem) => void;
   endPoetryCombat: (success: boolean) => void;
+  showDialogue: (dialogues: Dialogue[]) => void;
+  nextDialogue: () => void;
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -45,7 +62,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   form: 'brush',
   collectedWords: ['天', '地', '人'],
   unlockedPoems: [],
+  collectedMemories: [],
   currentPoemCombat: null,
+  currentDialogue: null,
+  dialogueIndex: 0,
 
   setGameState: (state) => set({ state }),
   setForm: (form) => set({ form }),
@@ -75,6 +95,12 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
     return state;
   }),
+  collectMemory: (memoryId) => set((state) => {
+    if (!state.collectedMemories.includes(memoryId)) {
+      return { collectedMemories: [...state.collectedMemories, memoryId] };
+    }
+    return state;
+  }),
   startPoetryCombat: (poem) => set({ 
     state: 'poetry-combat', 
     currentPoemCombat: poem 
@@ -92,5 +118,24 @@ export const useGameStore = create<GameState>((set, get) => ({
       state: 'playing', 
       currentPoemCombat: null 
     };
+  }),
+  showDialogue: (dialogues) => set({
+    state: 'dialogue',
+    currentDialogue: dialogues,
+    dialogueIndex: 0,
+  }),
+  nextDialogue: () => set((state) => {
+    if (!state.currentDialogue) return state;
+    
+    if (state.dialogueIndex < state.currentDialogue.length - 1) {
+      return { dialogueIndex: state.dialogueIndex + 1 };
+    } else {
+      // 结束对话，返回游玩状态
+      return { 
+        state: 'playing',
+        currentDialogue: null,
+        dialogueIndex: 0
+      };
+    }
   }),
 }));
