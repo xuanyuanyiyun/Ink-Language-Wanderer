@@ -60,7 +60,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   wenqi: 100,
   maxWenqi: 100,
   form: 'brush',
-  collectedWords: ['天', '地', '人'],
+  collectedWords: ['△', '○', '□'],
   unlockedPoems: [],
   collectedMemories: [],
   currentPoemCombat: null,

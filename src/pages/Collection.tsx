@@ -9,14 +9,14 @@ export default function Collection() {
   const [activeTab, setActiveTab] = useState<'words' | 'poems' | 'memories'>('words');
 
   const allPoems = [
-    { id: '1', title: '《静夜思》', preview: '床前明月光...', desc: '【创作背景】李白在长安思乡之作。解锁此诗，方知游子之苦。', unlocked: unlockedPoems.includes('1') },
-    { id: '2', title: '《登鹳雀楼》', preview: '白日依山尽...', desc: '【创作背景】王之涣登高望远，体现了唐人的豪迈气象。', unlocked: unlockedPoems.includes('2') },
-    { id: '3', title: '《将进酒》', preview: '君不见黄河之水天上...', desc: '【创作背景】千古绝唱。传闻曾引发忘川震荡。', unlocked: unlockedPoems.includes('3') },
+    { id: '1', title: '◰ ◱', preview: '○ △ □...', desc: '∴ ∵ ∷ ∸ ∹', unlocked: unlockedPoems.includes('1') },
+    { id: '2', title: '◲ ◳', preview: '□ ■ ▨...', desc: '∺ ∻ ∼ ∽ ∾', unlocked: unlockedPoems.includes('2') },
+    { id: '3', title: '▤ ▥', preview: '▩ ▨ ▧...', desc: '∿ ≀ ≁ ≂ ≃', unlocked: unlockedPoems.includes('3') },
   ];
 
   const allMemories = [
-    { id: 'mem1', title: '师父的教导', content: '“文明是宇宙对抗熵增的唯一方式。一撇一捺，相互支撑，方为‘人’。”\n——你隐约记得，那是你第一次握笔时的场景。', unlocked: collectedMemories.includes('mem1') },
-    { id: 'mem2', title: '燃烧的禁书', content: '“若文明必伴苦难，此文明值得存否？不完美的文明，不如无文明。”\n——师父在火光中的背影，显得无比陌生。', unlocked: collectedMemories.includes('mem2') },
+    { id: 'mem1', title: '◈ ◉', content: '“◧ ◨ ◩ ◪”\n——▱ ▰ ▤ ▥', unlocked: collectedMemories.includes('mem1') },
+    { id: 'mem2', title: '◎ ●', content: '“◫ ◬ ◭ ◮”\n——▧ ▨ ▩ ◘', unlocked: collectedMemories.includes('mem2') },
   ];
 
   return (
@@ -30,12 +30,12 @@ export default function Collection() {
           onMouseEnter={() => audioSystem.playHover()}
           className="absolute -top-4 -left-4 px-6 py-2 border-4 border-paper bg-ink text-paper hover:bg-paper hover:text-ink transition-colors shadow-pixel font-bold tracking-widest"
         >
-          &lt; 返回卷首
+          ◁ ⌂
         </button>
         
         <div className="flex flex-col items-center mb-12">
           <h1 className="text-5xl text-center tracking-[0.3em] font-bold ink-glow relative">
-            文心宝录
+            ▦ ▧ ▨
           </h1>
           <div className="w-64 h-[2px] bg-paper/50 mt-6 relative">
             <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-4 h-4 bg-ink border-2 border-paper rotate-45"></div>
@@ -48,21 +48,21 @@ export default function Collection() {
             onClick={() => { audioSystem.playConfirm(); setActiveTab('words'); }}
             onMouseEnter={() => { if(activeTab !== 'words') audioSystem.playHover(); }}
           >
-            残字碑
+            △
           </button>
           <button 
             className={`px-8 py-3 border-4 font-bold tracking-widest transition-all duration-200 ${activeTab === 'poems' ? 'border-paper bg-paper text-ink shadow-pixel translate-y-[-2px]' : 'border-paper-dark text-paper hover:border-paper bg-ink shadow-sm'}`}
             onClick={() => { audioSystem.playConfirm(); setActiveTab('poems'); }}
             onMouseEnter={() => { if(activeTab !== 'poems') audioSystem.playHover(); }}
           >
-            诗词卷
+            ◇
           </button>
           <button 
             className={`px-8 py-3 border-4 font-bold tracking-widest transition-all duration-200 ${activeTab === 'memories' ? 'border-paper bg-paper text-ink shadow-pixel translate-y-[-2px]' : 'border-paper-dark text-paper hover:border-paper bg-ink shadow-sm'}`}
             onClick={() => { audioSystem.playConfirm(); setActiveTab('memories'); }}
             onMouseEnter={() => { if(activeTab !== 'memories') audioSystem.playHover(); }}
           >
-            前尘梦
+            ○
           </button>
         </div>
 
@@ -76,8 +76,8 @@ export default function Collection() {
           {activeTab === 'words' && (
             <div className="animate-breathe" style={{ animationDuration: '6s' }}>
               <div className="flex justify-between items-end mb-8 border-b-2 border-paper-dark/50 pb-2">
-                <h2 className="text-2xl tracking-widest font-bold">已获字魂</h2>
-                <span className="text-paper-dark font-mono text-sm">共 {collectedWords.length} 字</span>
+                <h2 className="text-2xl tracking-widest font-bold">△ □</h2>
+                <span className="text-paper-dark font-mono text-sm">∑ {collectedWords.length}</span>
               </div>
               <div className="flex flex-wrap gap-4">
                 {collectedWords.map((word, i) => (
@@ -86,7 +86,7 @@ export default function Collection() {
                   </div>
                 ))}
                 {collectedWords.length === 0 && (
-                  <p className="text-paper-dark w-full text-center py-10 tracking-widest">空空如也，前路漫漫...</p>
+                  <p className="text-paper-dark w-full text-center py-10 tracking-widest">. . .</p>
                 )}
               </div>
             </div>
@@ -95,8 +95,8 @@ export default function Collection() {
           {activeTab === 'poems' && (
             <div className="animate-breathe" style={{ animationDuration: '6s' }}>
               <div className="flex justify-between items-end mb-8 border-b-2 border-paper-dark/50 pb-2">
-                <h2 className="text-2xl tracking-widest font-bold">诗词图鉴</h2>
-                <span className="text-paper-dark font-mono text-sm">已解封 {unlockedPoems.length}/{allPoems.length}</span>
+                <h2 className="text-2xl tracking-widest font-bold">◇ ◈</h2>
+                <span className="text-paper-dark font-mono text-sm">⊞ {unlockedPoems.length}/{allPoems.length}</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {allPoems.map((poem) => (
@@ -109,10 +109,10 @@ export default function Collection() {
                     }`}
                   >
                     <div className="flex justify-between items-center">
-                      <h3 className="text-2xl font-bold tracking-widest">{poem.unlocked ? poem.title : '未解之谜'}</h3>
+                      <h3 className="text-2xl font-bold tracking-widest">{poem.unlocked ? poem.title : '???'}</h3>
                       {poem.unlocked && <div className="w-4 h-4 bg-accent/80 rounded-full"></div>}
                     </div>
-                    <p className="text-lg opacity-90">{poem.unlocked ? poem.preview : '??? ...'}</p>
+                    <p className="text-lg opacity-90">{poem.unlocked ? poem.preview : '...'}</p>
                     {poem.unlocked && (
                       <div className="mt-2 pt-3 border-t border-paper-dark/30">
                         <p className="text-sm text-paper-dark leading-relaxed">{poem.desc}</p>
@@ -127,15 +127,15 @@ export default function Collection() {
           {activeTab === 'memories' && (
             <div className="animate-breathe" style={{ animationDuration: '6s' }}>
               <div className="flex justify-between items-end mb-8 border-b-2 border-paper-dark/50 pb-2">
-                <h2 className="text-2xl tracking-widest font-bold">世界记忆</h2>
-                <span className="text-paper-dark font-mono text-sm">已寻回 {collectedMemories.length}/{allMemories.length}</span>
+                <h2 className="text-2xl tracking-widest font-bold">○ ◎</h2>
+                <span className="text-paper-dark font-mono text-sm">⊞ {collectedMemories.length}/{allMemories.length}</span>
               </div>
               <div className="flex flex-col gap-8">
                 {allMemories.map((mem) => (
                   <div key={mem.id} className="relative group">
                     {!mem.unlocked && (
                       <div className="absolute inset-0 bg-ink/90 backdrop-blur-sm z-10 flex items-center justify-center border-2 border-paper-dark/30">
-                        <span className="text-paper-dark tracking-widest">记忆尚未寻回...</span>
+                        <span className="text-paper-dark tracking-widest">...</span>
                       </div>
                     )}
                     <div className="border-l-4 border-paper pl-6 py-2 transition-colors group-hover:border-accent">
