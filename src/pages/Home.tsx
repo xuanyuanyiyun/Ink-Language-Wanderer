@@ -6,9 +6,9 @@ export default function Home() {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
   const menus = [
-    { label: '▷', action: () => { audioSystem.playConfirm(); navigate('/game'); } },
-    { label: '☰', action: () => { audioSystem.playConfirm(); navigate('/collection'); } },
-    { label: '◬', action: () => { audioSystem.playConfirm(); alert('...'); } },
+    { label: '踏入墨界', action: () => { audioSystem.playConfirm(); navigate('/game'); } },
+    { label: '文心宝录', action: () => { audioSystem.playConfirm(); navigate('/collection'); } },
+    { label: '隐秘卷宗', action: () => { audioSystem.playConfirm(); alert('尚在封印中'); } },
   ];
 
   useEffect(() => {
@@ -42,17 +42,17 @@ export default function Home() {
       <div className="border-4 border-paper p-12 bg-ink/90 backdrop-blur-sm max-w-lg w-full relative z-10 shadow-pixel flex flex-col items-center">
         {/* 顶部印章装饰 */}
         <div className="absolute -top-6 right-12 w-12 h-12 bg-accent text-paper flex items-center justify-center border-2 border-ink shadow-pixel rotate-12 select-none">
-          <span className="text-xl font-bold writing-vertical-rl">◈</span>
+          <span className="text-xl font-bold writing-vertical-rl">初卷</span>
         </div>
 
         <h1 className="text-7xl text-center mb-6 tracking-[0.2em] ink-glow font-bold relative">
           <span className="absolute -inset-2 opacity-10 bg-paper blur-xl"></span>
-          ▧ ▨ ▦
+          墨语行者
         </h1>
         
         <div className="text-center mb-16 text-paper-dark relative">
           <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-32 h-[1px] bg-paper-dark/30"></div>
-          <p className="bg-ink relative z-10 px-4 text-sm tracking-widest uppercase">∴ ∵ ∷</p>
+          <p className="bg-ink relative z-10 px-4 text-sm tracking-widest uppercase">机制驱动 · 以文为武</p>
         </div>
 
         <div className="flex flex-col gap-6 w-full max-w-[240px]">
@@ -82,9 +82,9 @@ export default function Home() {
         </div>
         
         <div className="mt-20 flex flex-col items-center gap-2">
-          <p className="text-xs text-paper-dark animate-pulse opacity-70">( ⚿ )</p>
+          <p className="text-xs text-paper-dark animate-pulse opacity-70">（点击或按键开启音效与音乐）</p>
           <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-paper-dark/50 to-transparent"></div>
-          <p className="text-xs text-paper-dark mt-2 font-mono">© ■ □</p>
+          <p className="text-xs text-paper-dark mt-2 font-mono">© 2026 Ink Walker Studio</p>
         </div>
       </div>
     </div>
