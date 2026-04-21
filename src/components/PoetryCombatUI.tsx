@@ -80,7 +80,7 @@ export default function PoetryCombatUI() {
         ))}
       </div>
       <div className="mt-6 text-xs text-paper-dark text-center animate-pulse tracking-widest font-mono">
-        ↑↓ 选择选项，空格/回车/点击 确认填写
+        [↑↓] ◧ / [Space|Enter] ◨
       </div>
     </div>
   );

@@ -79,7 +79,7 @@ export default function DialogueUI() {
         
         {!isTyping && (
           <div className="absolute bottom-4 right-6 animate-pulse text-paper-dark text-sm font-mono tracking-widest group-hover:text-paper transition-colors">
-            ▼ 继续
+            ▼
           </div>
         )}
       </div>

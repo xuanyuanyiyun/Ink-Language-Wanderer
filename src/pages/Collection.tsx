@@ -9,14 +9,14 @@ export default function Collection() {
   const [activeTab, setActiveTab] = useState<'words' | 'poems' | 'memories'>('words');
 
   const allPoems = [
-    { id: '1', title: '◰ ◱', preview: '○ △ □...', desc: '∴ ∵ ∷ ∸ ∹', unlocked: unlockedPoems.includes('1') },
-    { id: '2', title: '◲ ◳', preview: '□ ■ ▨...', desc: '∺ ∻ ∼ ∽ ∾', unlocked: unlockedPoems.includes('2') },
-    { id: '3', title: '▤ ▥', preview: '▩ ▨ ▧...', desc: '∿ ≀ ≁ ≂ ≃', unlocked: unlockedPoems.includes('3') },
+    { id: '1', title: '◰', preview: '...', desc: '∴ ∵ ∷', unlocked: unlockedPoems.includes('1') },
+    { id: '2', title: '◱', preview: '...', desc: '∴ ∵ ∷', unlocked: unlockedPoems.includes('2') },
+    { id: '3', title: '◲', preview: '...', desc: '∴ ∵ ∷', unlocked: unlockedPoems.includes('3') },
   ];
 
   const allMemories = [
-    { id: 'mem1', title: '◈ ◉', content: '“◧ ◨ ◩ ◪”\n——▱ ▰ ▤ ▥', unlocked: collectedMemories.includes('mem1') },
-    { id: 'mem2', title: '◎ ●', content: '“◫ ◬ ◭ ◮”\n——▧ ▨ ▩ ◘', unlocked: collectedMemories.includes('mem2') },
+    { id: 'mem1', title: '◐', content: '∴ ∵ ∷\n—— ⋯', unlocked: collectedMemories.includes('mem1') },
+    { id: 'mem2', title: '◑', content: '∴ ∵ ∷\n—— ⋯', unlocked: collectedMemories.includes('mem2') },
   ];
 
   return (
@@ -30,12 +30,12 @@ export default function Collection() {
           onMouseEnter={() => audioSystem.playHover()}
           className="absolute -top-4 -left-4 px-6 py-2 border-4 border-paper bg-ink text-paper hover:bg-paper hover:text-ink transition-colors shadow-pixel font-bold tracking-widest"
         >
-          ◁ ⌂
+          &lt; ⌂
         </button>
         
         <div className="flex flex-col items-center mb-12">
           <h1 className="text-5xl text-center tracking-[0.3em] font-bold ink-glow relative">
-            ▦ ▧ ▨
+            ☰
           </h1>
           <div className="w-64 h-[2px] bg-paper/50 mt-6 relative">
             <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-4 h-4 bg-ink border-2 border-paper rotate-45"></div>
@@ -55,14 +55,14 @@ export default function Collection() {
             onClick={() => { audioSystem.playConfirm(); setActiveTab('poems'); }}
             onMouseEnter={() => { if(activeTab !== 'poems') audioSystem.playHover(); }}
           >
-            ◇
+            ◧
           </button>
           <button 
             className={`px-8 py-3 border-4 font-bold tracking-widest transition-all duration-200 ${activeTab === 'memories' ? 'border-paper bg-paper text-ink shadow-pixel translate-y-[-2px]' : 'border-paper-dark text-paper hover:border-paper bg-ink shadow-sm'}`}
             onClick={() => { audioSystem.playConfirm(); setActiveTab('memories'); }}
             onMouseEnter={() => { if(activeTab !== 'memories') audioSystem.playHover(); }}
           >
-            ○
+            ◉
           </button>
         </div>
 
@@ -76,7 +76,7 @@ export default function Collection() {
           {activeTab === 'words' && (
             <div className="animate-breathe" style={{ animationDuration: '6s' }}>
               <div className="flex justify-between items-end mb-8 border-b-2 border-paper-dark/50 pb-2">
-                <h2 className="text-2xl tracking-widest font-bold">△ □</h2>
+                <h2 className="text-2xl tracking-widest font-bold">△</h2>
                 <span className="text-paper-dark font-mono text-sm">∑ {collectedWords.length}</span>
               </div>
               <div className="flex flex-wrap gap-4">
@@ -86,7 +86,7 @@ export default function Collection() {
                   </div>
                 ))}
                 {collectedWords.length === 0 && (
-                  <p className="text-paper-dark w-full text-center py-10 tracking-widest">. . .</p>
+                  <p className="text-paper-dark w-full text-center py-10 tracking-widest">...</p>
                 )}
               </div>
             </div>
@@ -95,7 +95,7 @@ export default function Collection() {
           {activeTab === 'poems' && (
             <div className="animate-breathe" style={{ animationDuration: '6s' }}>
               <div className="flex justify-between items-end mb-8 border-b-2 border-paper-dark/50 pb-2">
-                <h2 className="text-2xl tracking-widest font-bold">◇ ◈</h2>
+                <h2 className="text-2xl tracking-widest font-bold">◧</h2>
                 <span className="text-paper-dark font-mono text-sm">⊞ {unlockedPoems.length}/{allPoems.length}</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -127,7 +127,7 @@ export default function Collection() {
           {activeTab === 'memories' && (
             <div className="animate-breathe" style={{ animationDuration: '6s' }}>
               <div className="flex justify-between items-end mb-8 border-b-2 border-paper-dark/50 pb-2">
-                <h2 className="text-2xl tracking-widest font-bold">○ ◎</h2>
+                <h2 className="text-2xl tracking-widest font-bold">◉</h2>
                 <span className="text-paper-dark font-mono text-sm">⊞ {collectedMemories.length}/{allMemories.length}</span>
               </div>
               <div className="flex flex-col gap-8">

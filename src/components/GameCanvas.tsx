@@ -25,19 +25,19 @@ export default function GameCanvas() {
 
   const memoryEntities = useRef<MemoryEntity[]>([
     {
-      x: 200, y: 150, id: 'mem1', title: '师父的教导',
+      x: 200, y: 150, id: 'mem1', title: '◐',
       dialogue: [
-        { speaker: '师父', text: '“守儿，你可知每个字都有它的重量？”' },
-        { speaker: '墨守', text: '“徒儿不知。”' },
-        { speaker: '师父', text: '“文明是宇宙对抗熵增的唯一方式。一撇一捺，相互支撑，方为‘人’。”' }
+        { speaker: '◰', text: '∴ ∵ ∷' },
+        { speaker: '◱', text: '⋯' },
+        { speaker: '◰', text: '∑ ∏ ∐' }
       ]
     },
     {
-      x: 80, y: 80, id: 'mem2', title: '燃烧的禁书',
+      x: 80, y: 80, id: 'mem2', title: '◑',
       dialogue: [
-        { speaker: '师父', text: '“这本《权谋书》被用于党争，死伤三千。文字之罪耶？”' },
-        { speaker: '惊鸿', text: '“师父，您不能全烧了！这是文明的火种！”' },
-        { speaker: '师父', text: '“若文明必伴苦难，此文明值得存否？不完美的文明，不如无文明。”' }
+        { speaker: '◰', text: '∺ ∻ ∼ ∽' },
+        { speaker: '◲', text: '≁ ≂ ≃' },
+        { speaker: '◰', text: '≄ ≅ ≆' }
       ]
     }
   ]);
@@ -48,9 +48,9 @@ export default function GameCanvas() {
       // 开场对话
       setTimeout(() => {
         showDialogue([
-          { text: '（空白之地... 我是谁？）' },
-          { speaker: '墨守', text: '我只记得... 师父的半块砚台。' },
-          { speaker: '惊鸿', text: '“你终于醒了。忘川正在吞噬一切，快走吧。”' }
+          { text: '( ... )' },
+          { speaker: '◱', text: '∴ ∵ ∷' },
+          { speaker: '◲', text: '∸ ∹ ∺' }
         ]);
       }, 500);
     }
@@ -99,9 +99,9 @@ export default function GameCanvas() {
         audioSystem.playAttack();
         useGameStore.getState().startPoetryCombat({
           id: '1',
-          content: '生当作人杰，死亦为鬼雄',
-          missingPart: '死亦为鬼雄',
-          options: ['死亦为鬼杰', '生亦为鬼雄', '死亦为鬼雄'],
+          content: '◧ ◨ ◩ ◪ ◫',
+          missingPart: '◪ ◫',
+          options: ['◪ ◭', '◨ ◪', '◪ ◫'],
           correctIndex: 2,
           effect: 'damage'
         });
@@ -183,7 +183,7 @@ export default function GameCanvas() {
       ctx.font = '10px Zpix, monospace';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      const formChar = form === 'brush' ? '笔' : form === 'ink' ? '墨' : form === 'paper' ? '纸' : '砚';
+      const formChar = form === 'brush' ? '◧' : form === 'ink' ? '◨' : form === 'paper' ? '◩' : '◪';
       ctx.fillText(formChar, playerPos.current.x, playerPos.current.y);
 
       // Draw Memory Fragments
@@ -198,7 +198,7 @@ export default function GameCanvas() {
           ctx.fillStyle = '#000000';
           ctx.fillRect(mem.x - 4, mem.y - 4, 8, 8);
           ctx.fillStyle = '#ffffff';
-          ctx.fillText('忆', mem.x, mem.y);
+          ctx.fillText('◉', mem.x, mem.y);
 
           // Check collision
           const dx = playerPos.current.x - mem.x;
@@ -234,8 +234,8 @@ export default function GameCanvas() {
       {/* Game Over Overlay */}
       {state === 'gameover' && (
         <div className="absolute inset-0 bg-ink text-paper flex flex-col items-center justify-center z-20">
-          <h2 className="text-4xl mb-4">文尽墨枯</h2>
-          <p className="animate-pulse">按 [R] 重新开始</p>
+          <h2 className="text-4xl mb-4">...</h2>
+          <p className="animate-pulse">[R] ↺</p>
         </div>
       )}
     </div>
