@@ -42,7 +42,7 @@ export default function DialogueUI() {
           setIsTyping(false);
         } else {
           // 否则进入下一句
-          audioSystem.playSwitch();
+          audioSystem.playConfirm();
           nextDialogue();
         }
       }
@@ -69,7 +69,7 @@ export default function DialogueUI() {
                setDisplayedText(currentDialogue[dialogueIndex].text);
                setIsTyping(false);
              } else {
-               audioSystem.playSwitch();
+               audioSystem.playConfirm();
                nextDialogue();
              }
            }}>

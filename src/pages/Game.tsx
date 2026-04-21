@@ -5,6 +5,7 @@ import GameCanvas from '@/components/GameCanvas';
 import HUD from '@/components/HUD';
 import PoetryCombatUI from '@/components/PoetryCombatUI';
 import DialogueUI from '@/components/DialogueUI';
+import { audioSystem } from '@/utils/audio';
 
 export default function Game() {
   const { state, setGameState } = useGameStore();
@@ -20,7 +21,7 @@ export default function Game() {
   return (
     <div className="min-h-screen bg-ink flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-4xl flex justify-between items-center mb-4 text-paper text-sm">
-        <button onClick={() => navigate('/')} className="hover:text-paper-dark border-b border-transparent hover:border-paper-dark">
+        <button onClick={() => { audioSystem.playConfirm(); navigate('/'); }} className="hover:text-paper-dark border-b border-transparent hover:border-paper-dark">
           &lt; 返回菜单
         </button>
         <div className="flex gap-4">

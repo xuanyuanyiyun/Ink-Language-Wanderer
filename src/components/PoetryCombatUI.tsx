@@ -12,15 +12,16 @@ export default function PoetryCombatUI() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowUp') {
         setSelectedIndex(prev => (prev > 0 ? prev - 1 : currentPoemCombat.options.length - 1));
-        audioSystem.playSwitch();
+        audioSystem.playHover();
       } else if (e.key === 'ArrowDown') {
         setSelectedIndex(prev => (prev < currentPoemCombat.options.length - 1 ? prev + 1 : 0));
-        audioSystem.playSwitch();
+        audioSystem.playHover();
       } else if (e.key === 'Enter' || e.key === ' ') {
         const isCorrect = selectedIndex === currentPoemCombat.correctIndex;
         if (isCorrect) {
-          audioSystem.playSuccess();
+          audioSystem.playPoemCorrect();
         } else {
+          audioSystem.playPoemWrong();
           audioSystem.playDamage();
         }
         endPoetryCombat(isCorrect);

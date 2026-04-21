@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '@/store/gameStore';
+import { audioSystem } from '@/utils/audio';
 
 export default function Collection() {
   const navigate = useNavigate();
@@ -22,7 +23,8 @@ export default function Collection() {
     <div className="min-h-screen bg-ink text-paper p-8">
       <div className="max-w-4xl mx-auto relative">
         <button 
-          onClick={() => navigate('/')}
+          onClick={() => { audioSystem.playConfirm(); navigate('/'); }}
+          onMouseEnter={() => audioSystem.playHover()}
           className="absolute -top-4 -left-4 px-4 py-2 border-2 border-paper hover:bg-paper hover:text-ink transition-colors"
         >
           &lt; 返回主页
@@ -33,19 +35,22 @@ export default function Collection() {
         <div className="flex gap-4 mb-8 justify-center">
           <button 
             className={`px-6 py-2 border-2 transition-colors ${activeTab === 'words' ? 'border-paper bg-paper text-ink' : 'border-paper text-paper'}`}
-            onClick={() => setActiveTab('words')}
+            onClick={() => { audioSystem.playConfirm(); setActiveTab('words'); }}
+            onMouseEnter={() => { if(activeTab !== 'words') audioSystem.playHover(); }}
           >
             字魂
           </button>
           <button 
             className={`px-6 py-2 border-2 transition-colors ${activeTab === 'poems' ? 'border-paper bg-paper text-ink' : 'border-paper text-paper'}`}
-            onClick={() => setActiveTab('poems')}
+            onClick={() => { audioSystem.playConfirm(); setActiveTab('poems'); }}
+            onMouseEnter={() => { if(activeTab !== 'poems') audioSystem.playHover(); }}
           >
             诗词
           </button>
           <button 
             className={`px-6 py-2 border-2 transition-colors ${activeTab === 'memories' ? 'border-paper bg-paper text-ink' : 'border-paper text-paper'}`}
-            onClick={() => setActiveTab('memories')}
+            onClick={() => { audioSystem.playConfirm(); setActiveTab('memories'); }}
+            onMouseEnter={() => { if(activeTab !== 'memories') audioSystem.playHover(); }}
           >
             记忆
           </button>

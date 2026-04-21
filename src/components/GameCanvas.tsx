@@ -69,12 +69,28 @@ export default function GameCanvas() {
 
       if (state !== 'playing') return;
 
+      // Handle movement
+      const speed = 2;
+      let moved = false;
+      if (!keys.current['Space']) {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          moved = true;
+        }
+      }
+      
+      // 简单脚步声音效防抖（限制触发频率）
+      if (moved && !keys.current['isMovingSound']) {
+        keys.current['isMovingSound'] = true;
+        audioSystem.playFootstep();
+        setTimeout(() => { keys.current['isMovingSound'] = false; }, 200);
+      }
+
       // Handle form switching
       if (e.code === 'Space') {
-        if (keys.current['ArrowUp']) { setForm('brush'); audioSystem.playSwitch(); }
-        if (keys.current['ArrowDown']) { setForm('paper'); audioSystem.playSwitch(); }
-        if (keys.current['ArrowLeft']) { setForm('ink'); audioSystem.playSwitch(); }
-        if (keys.current['ArrowRight']) { setForm('stone'); audioSystem.playSwitch(); }
+        if (keys.current['ArrowUp'] && form !== 'brush') { setForm('brush'); audioSystem.playSwitchForm('brush'); }
+        if (keys.current['ArrowDown'] && form !== 'paper') { setForm('paper'); audioSystem.playSwitchForm('paper'); }
+        if (keys.current['ArrowLeft'] && form !== 'ink') { setForm('ink'); audioSystem.playSwitchForm('ink'); }
+        if (keys.current['ArrowRight'] && form !== 'stone') { setForm('stone'); audioSystem.playSwitchForm('stone'); }
       }
 
       // Mock combat trigger
