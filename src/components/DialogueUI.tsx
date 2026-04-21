@@ -22,9 +22,9 @@ export default function DialogueUI() {
         clearInterval(timer);
         setIsTyping(false);
       }
-      // 偶尔发出打字音效
+      // typing sound
       if (i % 3 === 0) {
-        audioSystem.playAttack(); // 使用短促音效模拟打字声
+        audioSystem.playAttack(); // simulate typing sound
       }
     }, 50);
 
@@ -37,11 +37,11 @@ export default function DialogueUI() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === 'Space' || e.code === 'Enter') {
         if (isTyping) {
-          // 如果正在打字，直接显示全句
+          // show full text immediately
           setDisplayedText(currentDialogue![dialogueIndex].text);
           setIsTyping(false);
         } else {
-          // 否则进入下一句
+          // next line
           audioSystem.playConfirm();
           nextDialogue();
         }
