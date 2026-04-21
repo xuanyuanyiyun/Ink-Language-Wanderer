@@ -105,9 +105,19 @@
   .animate-breathe {
     animation: breathe 4s ease-in-out infinite;
   }
+  
+  /* 说话跳动动画 */
+  .animate-talk {
+    animation: talk-bounce 0.2s ease-in-out infinite alternate;
+  }
 }
 
 @keyframes breathe {
   0%, 100% { opacity: 0.6; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.02); }
+}
+
+@keyframes talk-bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import { audioSystem } from '@/utils/audio';
 
@@ -6,6 +6,26 @@ export default function PoetryCombatUI() {
   const { state, currentPoemCombat, endPoetryCombat } = useGameStore();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [resultState, setResultState] = useState<'none' | 'correct' | 'wrong'>('none');
+
+  const handleSelection = useCallback((idx: number) => {
+    if (resultState !== 'none') return;
+    
+    const isCorrect = idx === currentPoemCombat!.correctIndex;
+    if (isCorrect) {
+      audioSystem.playPoemCorrect();
+      setResultState('correct');
+    } else {
+      audioSystem.playPoemWrong();
+      audioSystem.playDamage();
+      setResultState('wrong');
+    }
+    
+    // 延迟关闭以展示反馈动画
+    setTimeout(() => {
+      setResultState('none');
+      endPoetryCombat(isCorrect);
+    }, 800);
+  }, [currentPoemCombat, resultState, endPoetryCombat]);
 
   useEffect(() => {
     if (state !== 'poetry-combat' || !currentPoemCombat || resultState !== 'none') return;
@@ -24,29 +44,9 @@ export default function PoetryCombatUI() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [state, currentPoemCombat, selectedIndex, resultState, endPoetryCombat]);
+  }, [state, currentPoemCombat, selectedIndex, resultState, handleSelection]);
 
   if (state !== 'poetry-combat' || !currentPoemCombat) return null;
-
-  const handleSelection = (idx: number) => {
-    if (resultState !== 'none') return;
-    
-    const isCorrect = idx === currentPoemCombat.correctIndex;
-    if (isCorrect) {
-      audioSystem.playPoemCorrect();
-      setResultState('correct');
-    } else {
-      audioSystem.playPoemWrong();
-      audioSystem.playDamage();
-      setResultState('wrong');
-    }
-    
-    // 延迟关闭以展示反馈动画
-    setTimeout(() => {
-      setResultState('none');
-      endPoetryCombat(isCorrect);
-    }, 800);
-  };
 
   const [prefix, suffix] = currentPoemCombat.content.split(currentPoemCombat.missingPart);
 
